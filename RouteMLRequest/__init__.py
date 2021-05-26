@@ -22,10 +22,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # Depending upon the value provided for 'model_type'
     # query the relevant data and score using the appropriate model  
     if model_type=='diabetes_python':
-        model_data = PythonModelHelperFunctions.GetPythonModelData(arg_1, arg_2, arg_3)
+        model_data = PythonModelHelperFunctions.GetPythonModelData()
         model_result = PythonModelHelperFunctions.PythonModelInference(model_data)
     elif model_type=='iris_r':
-        model_data = RModelHelperFunctions.GetRModelData(arg_1, arg_2, arg_3)
+        model_data = RModelHelperFunctions.GetRModelData()
         model_result = RModelHelperFunctions.RModelInference(model_data)
 
     # Return model prediction results 
