@@ -1,5 +1,5 @@
 trigger:
-- master
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -8,7 +8,28 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-  
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+- script: |
+         python -m venv antenv
+         source antenv/bin/activate
+         python -m pip install --upgrade pip
+         pip install setup
+         pip install -r requirements.txt
+       displayName: "Install requirements"
+- task: ArchiveFiles@2
+   inputs:
+     rootFolderOrFile: '$(Build.SourcesDirectory)'
+     includeRootFolder: false
+     archiveType: 'zip'
+     archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
+     replaceExistingArchive: true
+     verbose: # (no value); this input is optional
+- publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
+   displayName: 'Upload package'
+   artifact: drop
+
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: 'Infrastructure'
