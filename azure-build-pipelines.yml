@@ -24,12 +24,12 @@ steps:
      rootFolderOrFile: '$(Build.SourcesDirectory)'
      includeRootFolder: false
      archiveType: 'zip'
-     archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
+     archiveFile: '$(Build.ArtifactStagingDirectory)/Application.zip'
      replaceExistingArchive: true
 
-- publish: $(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip
+- publish: $(Build.ArtifactStagingDirectory)/App.zip
   displayName: 'Upload package'
-  artifact: drop
+  artifact: App
 
 - task: PublishPipelineArtifact@1
   inputs:
