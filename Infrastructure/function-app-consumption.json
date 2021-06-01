@@ -35,8 +35,9 @@
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "dotnet",
+      "defaultValue": "python",
       "allowedValues": [
+        "python",
         "node",
         "dotnet",
         "java"
