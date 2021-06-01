@@ -39,7 +39,7 @@ stages:
                 resourceGroupName: ${{ parameters.resourceGroupName }}
                 location: ${{ parameters.region }}
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName ${{ parameters.functionAppName }} -storageAccountName ${{ parameters.storageAccountName }}'
+                overrideParameters: '-name ${{ parameters.functionAppName }} -storageAccountName ${{ parameters.storageAccountName }} -linuxFxVersion "python|3.9"'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
 
             - task: AzureFunctionApp@1
