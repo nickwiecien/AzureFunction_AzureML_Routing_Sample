@@ -1,29 +1,11 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "appName": {
+    "name": {
       "type": "string",
       "metadata": {
         "description": "The name of the function app that you wish to create."
-      }
-    },
-    "storageAccountType": {
-      "type": "string",
-      "defaultValue": "Standard_LRS",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS"
-      ],
-      "metadata": {
-        "description": "Storage Account type"
-      }
-    },
-    "storageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Storage Account Name"
       }
     },
     "location": {
@@ -33,142 +15,110 @@
         "description": "Location for all resources."
       }
     },
-    "runtime": {
+    "storageAccountName": {
       "type": "string",
-      "defaultValue": "python",
-      "allowedValues": [
-        "python",
-        "node",
-        "dotnet",
-        "java"
-      ],
       "metadata": {
-        "description": "The language worker runtime to load in the function app."
+        "description": "Storage Account Name"
       }
     },
-    "applicationInsightsName": {
-      "type": "string",
-      "defaultValue": "[parameters('appName')]"
+    "linuxFxVersion": {
+      "type": "string"
     },
-    "applicationInsightsSamplingRate": {
+    "sku": {
       "type": "string",
-      "defaultValue": "25"
+      "defaultValue": "Dynamic"
     },
-    "extensionVersion": {
+    "skuCode": {
       "type": "string",
-      "defaultValue": "~3"
+      "defaultValue": "Y1"
+    },
+    "workerSize": {
+      "type": "string",
+      "defaultValue": "0"
+    },
+    "workerSizeId": {
+      "type": "string",
+      "defaultValue": "0"
+    },
+    "numberOfWorkers": {
+      "type": "string",
+      "defaultValue": "1"
     }
   },
   "variables": {
-    "functionAppName": "[parameters('appName')]",
-    "hostingPlanName": "[parameters('appName')]",
-    "applicationInsightsName": "[parameters('applicationInsightsName')]",
-    "storageAccountName": "[parameters('storageAccountName')]",
-    "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-    "functionAppid": "[concat(resourceGroup().id,'/providers/','Microsoft.Web/sites/', variables('functionAppName'))]",
-    "functionWorkerRuntime": "[parameters('runtime')]"
+    "hostingPlanName": "[parameters('name')]",
+    "subscriptionId": "[subscription().subscriptionId]",
+    "resourceGroupName": "[resourceGroup().name]"
   },
   "resources": [
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "apiVersion": "2018-07-01",
-      "location": "[parameters('location')]",
-      "kind": "Storage",
-      "sku": {
-        "name": "[parameters('storageAccountType')]"
-      },
-      "properties": {
-        "supportsHttpsTrafficOnly": true
-      }
-    },
-    {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2018-02-01",
-      "name": "[variables('hostingPlanName')]",
-      "location": "[parameters('location')]",
-      "sku": {
-        "name": "Y1",
-        "tier": "Dynamic"
-      },
-      "properties": {
-        "name": "[variables('hostingPlanName')]",
-        "computeMode": "Dynamic"
-      }
-    },
-    {
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2018-11-01",
+      "name": "[parameters('name')]",
       "type": "Microsoft.Web/sites",
-      "name": "[variables('functionAppName')]",
+      "kind": "functionapp,linux",
       "location": "[parameters('location')]",
-      "kind": "functionapp",
-      "identity": {
-        "type": "SystemAssigned"
-      },
+      "tags": null,
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
       ],
       "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "name": "[parameters('name')]",
         "siteConfig": {
           "appSettings": [
             {
-              "name": "AzureWebJobsDashboard",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-            },
-            {
-              "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-            },
-            {
-              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-            },
-            {
-              "name": "WEBSITE_CONTENTSHARE",
-              "value": "[toLower(variables('functionAppName'))]"
-            },
-            {
               "name": "FUNCTIONS_EXTENSION_VERSION",
-              "value": "[parameters('extensionVersion')]"
-            },
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "8.11.1"
-            },
-            {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components/', variables('applicationInsightsName')), '2015-05-01').InstrumentationKey]"
+              "value": "~3"
             },
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "[variables('functionWorkerRuntime')]"
+              "value": "python"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
             }
-          ]
-        }
+          ],
+          "use32BitWorkerProcess": false,
+          "linuxFxVersion": "[parameters('linuxFxVersion')]"
+        },
+        "serverFarmId": "[concat('/subscriptions/', variables('subscriptionId'),'/resourcegroups/', variables('resourceGroupName'), '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]",
+        "clientAffinityEnabled": false
       }
     },
     {
-      "apiVersion": "2015-05-01",
-      "name": "[variables('applicationInsightsName')]",
-      "type": "microsoft.insights/components",
+      "apiVersion": "2018-11-01",
+      "name": "[variables('hostingPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
       "location": "[parameters('location')]",
-      "kind": "web",
-      "tags": {
-        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('applicationInsightsName'))]": "Resource"
+      "kind": "linux",
+      "tags": null,
+      "dependsOn": [],
+      "properties": {
+        "name": "[variables('hostingPlanName')]",
+        "workerSize": "[parameters('workerSize')]",
+        "workerSizeId": "[parameters('workerSizeId')]",
+        "numberOfWorkers": "[parameters('numberOfWorkers')]",
+        "reserved": true
+      },
+      "sku": {
+        "Tier": "[parameters('sku')]",
+        "Name": "[parameters('skuCode')]"
+      }
+    },
+    {
+      "apiVersion": "2019-06-01",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": null,
+      "sku": {
+        "name": "Standard_LRS"
       },
       "properties": {
-        "ApplicationId": "[variables('applicationInsightsName')]",
-        "Application_Type": "web",
-        "SamplingPercentage": "[parameters('applicationInsightsSamplingRate')]"
+        "supportsHttpsTrafficOnly": true,
+        "minimumTlsVersion": "TLS1_2"
       }
     }
-  ],
-  "outputs": {
-    "functionKey": {
-      "type": "string",
-      "value": "[listkeys(concat(variables('functionAppid'), '/host/default/'),'2016-08-01').functionKeys.default]"
-    }
-  }
+  ]
 }
