@@ -24,7 +24,7 @@ steps:
      rootFolderOrFile: '$(Build.SourcesDirectory)'
      includeRootFolder: false
      archiveType: 'zip'
-     archiveFile: '$(Build.ArtifactStagingDirectory)/Application.zip'
+     archiveFile: '$(Build.ArtifactStagingDirectory)/App.zip'
      replaceExistingArchive: true
 
 - publish: $(Build.ArtifactStagingDirectory)/App.zip

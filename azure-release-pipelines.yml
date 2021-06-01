@@ -15,7 +15,7 @@ stages:
     stageName: 'CI'
     environment: 'MLR-API-CI'
     azureSubscription: ${{ variables.azureSubscription }}
-    functionAppName: 'demo-function-api-ci'
+    functionAppName: 'demo-ml-routing-api-ci'
     resourceGroupName: 'demo-ml-routing-api-ci'
     storageAccountName: 'azmlrapici'
     region: 'East US'
