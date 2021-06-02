@@ -1,12 +1,15 @@
 # AzureFunction_AzureML_Routing_Sample
 
-Azure function demonstrating how to appropriately query data from backend data stores (Azure SQL) and route requests to an appropriate model endpoint based on the body of the original request.
+Azure function demonstrating how to appropriately query data from backend data stores (Azure SQL) and route requests to an appropriate model endpoint based on the body of the original request. The solution presented here accepts an incoming HTTP request containing a `model_type` attribute which is used to route the request. Using other variable parameters in the request body, data is queried from an Azure SQL Database and sent to a real-time Azure ML model endpoint before being returned to the original requestor. 
 
 ![AzureFunction_AzureML_Routing_Sample](img/routing.png?raw=true "AzureFunction_AzureML_Routing_Sample")
 
 ## Environment Setup
 
-Azure SQL, Azure Machine Learning (Deployed Python & R Models). Include links to deployed python/R models and references to associated datasets...
+Execution of this solution requires access to an Azure SQL Database having tables (``, ``) containing the associated data in the `` directory.
+Further, it requires access two deployed, real-time, ML endpoints. For the purposes of this demo, the two endpoints were deployed using the demos linked below.
+[Azure ML Real-Time R Model Endpoint - Iris Dataset](https://github.com/Azure/azureml-sdk-for-r/tree/master/samples/deployment/deploy-to-aci)
+[Azure ML Real-Time Python Model Endpoint - Diabetes Dataset](https://github.com/Azure/MachineLearningNotebooks/blob/master/how-to-use-azureml/deployment/deploy-to-cloud/model-register-and-deploy.ipynb)
 
 #### Azure Function Environment Variables
 
