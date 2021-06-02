@@ -8,6 +8,11 @@ resources:
 variables:
   vmImageName: 'ubuntu-latest'
   azureSubscription: 'Demo Account'
+  rModelEndpoint: 'TBD'
+  pythonModelEndpoint: 'TBD'
+  sqlServerDatabase: 'TBD'
+  sqlServerUserName: 'TBD'
+  sqlServer: 'TBD'
 
 stages:
 - template: azure-release-pipelines-stage-template.yml
@@ -19,4 +24,10 @@ stages:
     resourceGroupName: 'demo-ml-routing-api-ci'
     storageAccountName: 'azmlrapici'
     region: 'East US'
+    rModelEndpoint: ${{ variables.rModelEndpoint }}
+    pythonModelEndpoint: ${{ variables.pythonModelEndpoint }}
+    sqlServer: ${{ variables.sqlServer }}
+    sqlServerDatabase: ${{ variables.sqlServerDatabase }}
+    sqlServerUserName: ${{ variables.sqlServerUserName }}
+    sqlServerPassword: ${{ variables.sqlServerPassword }}
     packageName: 'App.zip'
