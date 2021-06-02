@@ -11,6 +11,8 @@ parameters:
   default: ''
 - name: storageAccountName
   default: ''
+- name: region
+  default: ''
 - name: rModelEndpoint
   default: ''
 - name: pythonModelEndpoint
