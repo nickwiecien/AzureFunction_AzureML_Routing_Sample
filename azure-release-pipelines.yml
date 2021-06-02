@@ -8,11 +8,11 @@ resources:
 variables:
   vmImageName: 'ubuntu-latest'
   azureSubscription: 'Demo Account'
-  rModelEndpoint: 'TBD'
-  pythonModelEndpoint: 'TBD'
-  sqlServerDatabase: 'TBD'
-  sqlServerUserName: 'TBD'
-  sqlServer: 'TBD'
+  rModelEndpoint: 'http://7a9ae2f8-4187-47c1-99dd-fa65e0b3f9ed.eastus2.azurecontainer.io/score'
+  pythonModelEndpoint: 'http://3e697019-8e04-4a6e-a47d-1dbc430c85d2.eastus2.azurecontainer.io/score'
+  sqlServerDatabase: 'parker_test_sql_db'
+  sqlServerUserName: 'nickwiecien'
+  sqlServer: 'parkertestsqlserver.database.windows.net'
 
 stages:
 - template: azure-release-pipelines-stage-template.yml
