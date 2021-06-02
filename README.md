@@ -6,9 +6,11 @@ Azure function demonstrating how to appropriately query data from backend data s
 
 ## Environment Setup
 
-Execution of this solution requires access to an Azure SQL Database having tables (``, ``) containing the associated data in the `` directory.
+Execution of this solution requires access to an Azure SQL Database having tables (`Iris`, `Diabetes`) containing the associated data in the `SQLData` directory.
 Further, it requires access two deployed, real-time, ML endpoints. For the purposes of this demo, the two endpoints were deployed using the demos linked below.
+
 [Azure ML Real-Time R Model Endpoint - Iris Dataset](https://github.com/Azure/azureml-sdk-for-r/tree/master/samples/deployment/deploy-to-aci)
+
 [Azure ML Real-Time Python Model Endpoint - Diabetes Dataset](https://github.com/Azure/MachineLearningNotebooks/blob/master/how-to-use-azureml/deployment/deploy-to-cloud/model-register-and-deploy.ipynb)
 
 #### Azure Function Environment Variables
