@@ -46,7 +46,7 @@ stages:
               displayName: '2. Azure functions app deploy'
               inputs:
                 azureSubscription: '$(azureSubscription)'
-                appType: functionApp
+                appType: functionAppLinux
                 appName: ${{ parameters.functionAppName }}
                 package: '$(Pipeline.Workspace)/build/App/${{ parameters.packageName }}'
                 AppSettings: ''
