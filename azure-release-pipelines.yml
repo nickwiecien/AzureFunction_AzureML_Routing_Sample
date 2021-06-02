@@ -29,5 +29,5 @@ stages:
     sqlServer: ${{ variables.sqlServer }}
     sqlServerDatabase: ${{ variables.sqlServerDatabase }}
     sqlServerUserName: ${{ variables.sqlServerUserName }}
-    sqlServerPassword: ${{ variables.sqlServerPassword }}
+    sqlServerPassword: $(sqlServerPassword)
     packageName: 'App.zip'
