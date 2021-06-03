@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
 
 variables:
   buildConfiguration: 'Release'
@@ -11,23 +11,21 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.6'
-- script: |
-         python -m venv antenv
-         source antenv/bin/activate
-         python -m pip install --upgrade pip
-         pip install setup
-         pip install -r requirements.txt
-  displayName: "Install requirements"
+    architecture: 'x64'
+- bash: |
+    if [ -f extensions.csproj ]
+    then
+        dotnet build extensions.csproj --output ./bin
+    fi
+    pip install --target="./.python_packages/lib/python3.6/site-packages" -r ./requirements.txt
 
 - task: ArchiveFiles@2
   inputs:
-     rootFolderOrFile: '$(Build.SourcesDirectory)'
+     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
      includeRootFolder: false
-     archiveType: 'zip'
-     archiveFile: '$(Build.ArtifactStagingDirectory)/App.zip'
-     replaceExistingArchive: true
+     archiveFile: '$(System.DefaultWorkingDirectory)/App.zip'
 
-- publish: $(Build.ArtifactStagingDirectory)/App.zip
+- publish: $(System.DefaultWorkingDirectory)/App.zip
   displayName: 'Upload package'
   artifact: App
 

@@ -13,6 +13,18 @@ parameters:
   default: ''
 - name: region
   default: ''
+- name: rModelEndpoint
+  default: ''
+- name: pythonModelEndpoint
+  default: ''
+- name: sqlServer
+  default: ''
+- name: sqlServerDatabase
+  default: ''
+- name: sqlServerUserName
+  default: ''
+- name: sqlServerPassword
+  default: ''
 - name: packageName
   default: ''  
 
@@ -25,7 +37,7 @@ stages:
       displayName: Deploy
       environment: ${{ parameters.environment }}
       pool:
-        vmImage: 'vs2017-win2016'
+        vmImage: 'ubuntu-latest'
   
       strategy:
         runOnce:
@@ -46,7 +58,7 @@ stages:
               displayName: '2. Azure functions app deploy'
               inputs:
                 azureSubscription: '$(azureSubscription)'
-                appType: functionApp
+                appType: functionAppLinux
                 appName: ${{ parameters.functionAppName }}
                 package: '$(Pipeline.Workspace)/build/App/${{ parameters.packageName }}'
-                AppSettings: ''
+                AppSettings: '-R_MODEL_ENDPOINT	${{ parameters.rModelEndpoint }} -PYTHON_MODEL_ENDPOINT ${{ parameters.pythonModelEndpoint }} -SQL_SERVER ${{ parameters.sqlServer }} -SQL_DATABASE ${{ parameters.sqlServerDatabase }} -SQL_USERNAME ${{ parameters.sqlServerUserName }} -SQL_PASSWORD ${{ parameters.sqlServerPassword }}'

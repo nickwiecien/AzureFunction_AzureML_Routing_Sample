@@ -8,6 +8,11 @@ resources:
 variables:
   vmImageName: 'ubuntu-latest'
   azureSubscription: 'Demo Account'
+  rModelEndpoint: 'http://7a9ae2f8-4187-47c1-99dd-fa65e0b3f9ed.eastus2.azurecontainer.io/score'
+  pythonModelEndpoint: 'http://3e697019-8e04-4a6e-a47d-1dbc430c85d2.eastus2.azurecontainer.io/score'
+  sqlServerDatabase: 'parker_test_sql_db'
+  sqlServerUserName: 'nickwiecien'
+  sqlServer: 'parkertestsqlserver.database.windows.net'
 
 stages:
 - template: azure-release-pipelines-stage-template.yml
@@ -19,4 +24,10 @@ stages:
     resourceGroupName: 'demo-ml-routing-api-ci'
     storageAccountName: 'azmlrapici'
     region: 'East US'
+    rModelEndpoint: ${{ variables.rModelEndpoint }}
+    pythonModelEndpoint: ${{ variables.pythonModelEndpoint }}
+    sqlServer: ${{ variables.sqlServer }}
+    sqlServerDatabase: ${{ variables.sqlServerDatabase }}
+    sqlServerUserName: ${{ variables.sqlServerUserName }}
+    sqlServerPassword: $(sqlServerPassword)
     packageName: 'App.zip'
