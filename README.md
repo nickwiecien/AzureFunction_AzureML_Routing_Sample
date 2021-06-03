@@ -1,6 +1,6 @@
 # AzureFunction_AzureML_Routing_Sample
 
-Azure function demonstrating how to appropriately query data from backend data stores (Azure SQL) and route requests to an appropriate model endpoint based on the body of the original request. The solution presented here accepts an incoming HTTP request containing a `model_type` attribute which is used to route the request. Using other variable parameters in the request body, data is queried from an Azure SQL Database and sent to a real-time Azure ML model endpoint before being returned to the original requestor. 
+Azure function demonstrating how to appropriately query data from backend data stores (Azure SQL) and route requests to an appropriate model endpoint based on the body of the original request. The solution presented here accepts an incoming HTTP request containing a `model_type` attribute which is used to route the request (see `AML Routing.postman_collection.json` for sample requests). Using other variable parameters in the request body, data is queried from an Azure SQL Database and sent to a real-time Azure ML model endpoint before being returned to the original requestor. 
 
 ![AzureFunction_AzureML_Routing_Sample](img/routing.png?raw=true "AzureFunction_AzureML_Routing_Sample")
 

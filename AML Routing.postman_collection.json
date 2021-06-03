@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "3d1dd121-8cad-415d-9fb0-00fa31caeffb",
+		"name": "AML Routing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ML Routing Request - Python Model",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"model_type\": \"diabetes_python\",\r\n    \"arg_1\": 5,\r\n    \"arg_2\": 15.3,\r\n    \"arg_3\": \"testvalue\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/RouteMLRequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"RouteMLRequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ML Routing Request - R Model",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"model_type\": \"iris_r\",\r\n    \"arg_1\": 5,\r\n    \"arg_2\": 15.3,\r\n    \"arg_3\": \"testvalue\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/RouteMLRequest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"RouteMLRequest"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
