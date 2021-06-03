@@ -11,6 +11,7 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.6'
+    architecture: 'x64'
 - bash: |
     if [ -f extensions.csproj ]
     then
@@ -20,11 +21,11 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-     rootFolderOrFile: '$(Build.SourcesDirectory)'
+     rootFolderOrFile: '$(Build.DefaultWorkingDirectory)'
      includeRootFolder: false
-     archiveFile: '$(Build.ArtifactStagingDirectory)/App.zip'
+     archiveFile: '$(Build.DefaultWorkingDirectory)/App.zip'
 
-- publish: $(Build.ArtifactStagingDirectory)/App.zip
+- publish: $(Build.DefaultWorkingDirectory)/App.zip
   displayName: 'Upload package'
   artifact: App
 
